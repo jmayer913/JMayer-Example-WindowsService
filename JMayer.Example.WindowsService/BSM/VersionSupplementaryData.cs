@@ -12,7 +12,7 @@ public class VersionSupplementaryData : ITypeB
     /// </summary>
     [Required]
     [RegularExpression("^([A-Z]{3})?$", ErrorMessage = "The airport code must be 3 letters or empty.")]
-    public string AirportCode { get; private set; } = string.Empty;
+    public string AirportCode { get; set; } = string.Empty;
 
     /// <summary>
     /// The property gets the baggage source indicator (local, transfer, remote or terminating).
@@ -20,13 +20,13 @@ public class VersionSupplementaryData : ITypeB
     /// 
     [Required]
     [RegularExpression("^(L|R|X|T)$", ErrorMessage = "The baggage source indicator must be L, R, X or T.")]
-    public string BaggageSourceIndicator { get; private set; } = string.Empty;
+    public string BaggageSourceIndicator { get; set; } = string.Empty;
 
     /// <summary>
     /// The property gets the version number for the data dictionary.
     /// </summary>
     [Required]
-    public int DataDictionaryVersionNumber { get; private set; }
+    public int DataDictionaryVersionNumber { get; set; }
 
     /// <summary>
     /// The constant for the .V element.

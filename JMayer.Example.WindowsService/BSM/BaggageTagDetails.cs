@@ -18,7 +18,6 @@ public class BaggageTagDetails : ITypeB
     /// <summary>
     /// The property gets a list of baggage tag numbers.
     /// </summary>
-    /// 
     [Length(1, 999)]
     public List<string> BaggageTagNumbers { get; init; } = [];
 

@@ -28,10 +28,23 @@ public class BSMParser : PDUParser
 
             int endIndex = bytesAsString.IndexOf(BSM.EndOfBSM, startIndex);
 
-            //End was not found or start is actual end, exit.
+            //End was not found or start is actually the end, exit.
             if (endIndex == -1 || startIndex == endIndex)
             {
                 break;
+            }
+
+            //Add the length of the end of BSM so the end is included.
+            endIndex += BSM.EndOfBSM.Length;
+
+            //Ensures the new line is included, if it exists.
+            if (endIndex < bytesAsString.Length && bytesAsString[endIndex] == '\n')
+            {
+                endIndex++;
+            }
+            else if (endIndex + 1 < bytesAsString.Length && bytesAsString[endIndex] == '\r' && bytesAsString[endIndex + 1] == '\n')
+            {
+                endIndex += 2;
             }
 
             string bsmString = bytesAsString.Substring(startIndex, endIndex - startIndex);
