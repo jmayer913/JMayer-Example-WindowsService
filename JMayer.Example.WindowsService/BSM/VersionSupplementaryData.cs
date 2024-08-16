@@ -11,13 +11,12 @@ public class VersionSupplementaryData : ITypeB
     /// The property gets the aiport who sent the BSM.
     /// </summary>
     [Required]
-    [RegularExpression("^([A-Z]{3})?$", ErrorMessage = "The airport code must be 3 letters or empty.")]
+    [RegularExpression("^[A-Z]{3}$", ErrorMessage = "The airport code must be 3 capital letters.")]
     public string AirportCode { get; set; } = string.Empty;
 
     /// <summary>
     /// The property gets the baggage source indicator (local, transfer, remote or terminating).
     /// </summary>
-    /// 
     [Required]
     [RegularExpression("^(L|R|X|T)$", ErrorMessage = "The baggage source indicator must be L, R, X or T.")]
     public string BaggageSourceIndicator { get; set; } = string.Empty;
@@ -26,6 +25,7 @@ public class VersionSupplementaryData : ITypeB
     /// The property gets the version number for the data dictionary.
     /// </summary>
     [Required]
+    [Range(1, 9)]
     public int DataDictionaryVersionNumber { get; set; }
 
     /// <summary>

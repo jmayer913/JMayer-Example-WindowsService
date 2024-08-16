@@ -11,7 +11,7 @@ public class OutboundFlight : ITypeB
     /// The property gets the airline for the flight.
     /// </summary>
     [Required]
-    [RegularExpression("^[A-Z0-9]{2}$", ErrorMessage = "The airline must be 2 alphanumeric characters.")]
+    [RegularExpression("^[A-Z0-9]{2}$", ErrorMessage = "The airline must be 2 alphanumeric characters; the letters must be capital.")]
     public string Airline { get; set; } = string.Empty;
 
     /// <summary>
@@ -23,7 +23,7 @@ public class OutboundFlight : ITypeB
     /// <summary>
     /// The property gets the destination for this flight.
     /// </summary>
-    [RegularExpression("^([A-Z]{3})?$", ErrorMessage = "The destination must be 3 letters or empty.")]
+    [RegularExpression("^([A-Z]{3})?$", ErrorMessage = "The destination must be 3 capital letters or empty.")]
     public string Destination { get; set; } = string.Empty;
 
     /// <summary>
@@ -38,7 +38,7 @@ public class OutboundFlight : ITypeB
     /// This will be formatted like 01JAN.
     /// </remarks>
     [Required]
-    [RegularExpression("^[0-9]{2}(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)$", ErrorMessage = "The flight date must be the day of the month (2 digits) followed by the first three letters of the month (capitalized).")]
+    [RegularExpression("^[0-9]{2}(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)$", ErrorMessage = "The flight date must be the day of the month (2 digits) followed by the first three capital letters of the month.")]
     public string FlightDate { get; set; } = string.Empty;
 
     /// <summary>

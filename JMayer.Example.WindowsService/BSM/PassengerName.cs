@@ -38,11 +38,11 @@ public class PassengerName : ITypeB
         {
             //The number of given names can be infront of the surname as either a 1 or 2 digit number
             //so remove the number if it exists.
-            if (Regex.IsMatch(elements[0].AsSpan(0, 2), "^\\d$"))
+            if (elements[0].Length >= 2 && Regex.IsMatch(elements[0].AsSpan(0, 2), "^\\d$"))
             {
                 SurName = elements[0].Substring(2);
             }
-            else if (Regex.IsMatch(elements[0].AsSpan(0, 1), "^\\d$"))
+            else if (elements[0].Length >= 1 && Regex.IsMatch(elements[0].AsSpan(0, 1), "^\\d$"))
             {
                 SurName = elements[0].Substring(1);
             }

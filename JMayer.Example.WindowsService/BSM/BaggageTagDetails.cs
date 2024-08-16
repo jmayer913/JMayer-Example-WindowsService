@@ -18,6 +18,10 @@ public class BaggageTagDetails : ITypeB
     /// <summary>
     /// The property gets a list of baggage tag numbers.
     /// </summary>
+    /// <remarks>
+    /// Index 0 must be the first tag and index N must be the last tag. Each tag
+    /// after the first must increment by 1.
+    /// </remarks>
     [Length(1, 999)]
     public List<string> BaggageTagNumbers { get; init; } = [];
 
