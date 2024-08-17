@@ -43,7 +43,7 @@ internal class BSMClientWorker : BackgroundService
             {
                 try
                 {
-                    await _client.ConnectAsync("127.0.0.1", 55555, stoppingToken);
+                    await _client.ConnectAsync("127.0.0.1", BSMServerConnectionWorker.Port, stoppingToken);
                     _logger.LogInformation("The client connected to the BSM server.");
                 }
                 catch (Exception ex)
