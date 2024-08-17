@@ -37,6 +37,10 @@ public class IATAGenerator
     /// The method returns the next IATA.
     /// </summary>
     /// <returns>The IATA.</returns>
+    /// <remarks>
+    /// The IATA format is the first digit is 0 or 2-9, the next 3 digits are the airline numeric code
+    /// and the last 6 digits is a sequence number from 1-999999.
+    /// </remarks>
     public string Generate()
     {
         string iata = $"0{AirlineNumericCode}{_sequenceNumber.ToString().PadLeft(6, '0')}";
