@@ -75,6 +75,6 @@ public class PassengerName : ITypeB
             givenNames += $"/{givenName}";
         }
 
-        return $"{DotPElement}/{GivenNames.Count}{SurName}{givenNames}";
+        return $"{DotPElement}/{GivenNames.Count}{SurName}{givenNames}{Environment.NewLine}";
     }
 }

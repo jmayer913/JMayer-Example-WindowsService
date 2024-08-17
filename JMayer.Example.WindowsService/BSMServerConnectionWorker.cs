@@ -46,9 +46,6 @@ internal class BSMServerConnectionWorker : BackgroundService
     /// <returns>A Task object for the async.</returns>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _server.ConnectionStaleMode = ConnectionStaleMode.LastSent;
-        _server.ConnectionTimeout = 20;
-
         while (!stoppingToken.IsCancellationRequested)
         {
             //Start the server if not ready.

@@ -9,6 +9,11 @@ namespace JMayer.Example.WindowsService;
 internal class BSMServerOutputWorker : BackgroundService
 {
     /// <summary>
+    /// Used to generate BSMs.
+    /// </summary>
+    private readonly BSMGenerator _bsmGenerator;
+
+    /// <summary>
     /// Used to log activity for the service.
     /// </summary>
     private readonly ILogger<BSMServerOutputWorker> _logger;
@@ -21,10 +26,12 @@ internal class BSMServerOutputWorker : BackgroundService
     /// <summary>
     /// The dependency injection constructor.
     /// </summary>
+    /// <param name="bsmGenerator">Used to generate BSMs.</param>
     /// <param name="logger">Used to log activity for the service.</param>
     /// <param name="server">Used to manage TCP/IP communication.</param>
-    public BSMServerOutputWorker(ILogger<BSMServerOutputWorker> logger, IServer server)
+    public BSMServerOutputWorker(BSMGenerator bsmGenerator, ILogger<BSMServerOutputWorker> logger, IServer server)
     {
+        _bsmGenerator = bsmGenerator;
         _logger = logger;
         _server = server;
     }
@@ -38,8 +45,23 @@ internal class BSMServerOutputWorker : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            if (_server.IsReady)
-            { 
+            if (_server.IsReady && _server.ConnectionCount > 0)
+            {
+                //Generate a BSM & sends it to the remote clients.
+                try
+                {
+                    BSMPDU pdu = new()
+                    {
+                        BSM = _bsmGenerator.Generate(),
+                    };
+                    await _server.SendToAllAsync(pdu, stoppingToken);
+                    _logger.LogInformation("The BSM server sent a BSM to the remote clients. {BSM}", pdu.BSM.ToTypeB());
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "The BSM server failed to send the BSM to the remote clients.");
+                }
+
                 //Manage stale remote clients.
                 List<Guid> connectionIds = _server.GetStaleRemoteConnections();
 
@@ -56,26 +78,9 @@ internal class BSMServerOutputWorker : BackgroundService
                         catch { }
                     }
                 }
-
-                //Generate a BSM & sends it to the remote clients.
-                try
-                {
-                    BSM.BSM bsm = new(); //Need to generate; should make a class to manage the generation.
-                    BSMPDU pdu = new()
-                    {
-                        BSM = bsm,
-                    };
-
-                    await _server.SendToAllAsync(pdu, stoppingToken);
-                    _logger.LogInformation("The BSM server sent a BSM to the remote clients. {BSM}", pdu.BSM.ToTypeB());
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "The BSM server failed to send the BSM to the remote clients.");
-                }
             }
 
-            await Task.Delay(10_000, stoppingToken);
+            await Task.Delay(5_000, stoppingToken);
         }
     }
 }
