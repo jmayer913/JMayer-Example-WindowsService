@@ -68,10 +68,10 @@ public class BSMGenerator
     /// </summary>
     private readonly IATAGenerator[] _iataGenerators =
         [
-            new IATAGenerator() { AirlineAlphaNumericCode = "AA", AirlineNumericCode = "001", },
-            new IATAGenerator() { AirlineAlphaNumericCode = "DL", AirlineNumericCode = "006", },
-            new IATAGenerator() { AirlineAlphaNumericCode = "UA", AirlineNumericCode = "016", },
-            new IATAGenerator() { AirlineAlphaNumericCode = "WN", AirlineNumericCode = "526", },
+            new IATAGenerator() { AirlineAlphaNumericCode = AmericanAirlineAlphaCode, AirlineNumericCode = AmericanAirlinesNumericCode, },
+            new IATAGenerator() { AirlineAlphaNumericCode = DeltaAlphaCode, AirlineNumericCode = DeltaNumericCode, },
+            new IATAGenerator() { AirlineAlphaNumericCode = UnitedAirlinesAlphaCode, AirlineNumericCode = UnitedAirlinesNumericCode, },
+            new IATAGenerator() { AirlineAlphaNumericCode = SouthwestAlpaCode, AirlineNumericCode = SouthwestNumericCode, },
         ];
 
     /// <summary>
@@ -85,24 +85,44 @@ public class BSMGenerator
     private int _passengerCount = MinPassengerCount;
 
     /// <summary>
+    /// The constant for the AA alphanumeric code.
+    /// </summary>
+    public const string AmericanAirlineAlphaCode = "AA";
+
+    /// <summary>
+    /// The constant for the AA numeric code.
+    /// </summary>
+    public const string AmericanAirlinesNumericCode = "001";
+
+    /// <summary>
+    /// The constant for the DL alphanumeric code.
+    /// </summary>
+    public const string DeltaAlphaCode = "DL";
+
+    /// <summary>
+    /// The constant for the DL numeric code.
+    /// </summary>
+    public const string DeltaNumericCode = "006";
+
+    /// <summary>
     /// The constant for the .P given name.
     /// </summary>
-    private const string DotPGivenName = "PASSENGER";
+    public const string DotPGivenName = "PASSENGER";
 
     /// <summary>
     /// The constant for the .P surname.
     /// </summary>
-    private const string DotPSurName = "TEST";
+    public const string DotPSurName = "TEST";
 
     /// <summary>
     /// The constant for the .V airport code.
     /// </summary>
-    private const string DotVAirportCode = "MCO";
+    public const string DotVAirportCode = "MCO";
 
     /// <summary>
     /// The constant for the .V data dictionary version number.
     /// </summary>
-    private const int DotVDataDictionaryVersionNumber = 1;
+    public const int DotVDataDictionaryVersionNumber = 1;
 
     /// <summary>
     /// The constant for the maximum flight number.
@@ -123,6 +143,26 @@ public class BSMGenerator
     /// The constant for the minimum number of passengers.
     /// </summary>
     public const int MinPassengerCount = 1;
+
+    /// <summary>
+    /// The constant for the WN alphanumeric code.
+    /// </summary>
+    public const string SouthwestAlpaCode = "WN";
+
+    /// <summary>
+    /// The constant for the WN numeric code.
+    /// </summary>
+    public const string SouthwestNumericCode = "526";
+
+    /// <summary>
+    /// The constant for the UA alphanumeric code.
+    /// </summary>
+    public const string UnitedAirlinesAlphaCode = "UA";
+
+    /// <summary>
+    /// The constant for the UA numeric code.
+    /// </summary>
+    public const string UnitedAirlinesNumericCode = "016";
 
     /// <summary>
     /// The default constructor.
