@@ -63,17 +63,17 @@ internal class BSMServerOutputWorker : BackgroundService
                 }
 
                 //Manage stale remote clients.
-                List<Guid> connectionIds = _server.GetStaleRemoteConnections();
+                List<Guid> ids = _server.GetStaleRemoteConnections();
 
-                if (connectionIds.Count > 0)
+                if (ids.Count > 0)
                 {
                     _logger.LogInformation("The BSM server detected stale remote clients; will attempt to disconnect.");
 
-                    foreach (Guid connectionId in connectionIds)
+                    foreach (Guid id in ids)
                     {
                         try
                         {
-                            _server.Disconnect(connectionId);
+                            _server.Disconnect(id);
                         }
                         catch { }
                     }
