@@ -70,7 +70,8 @@ internal class BSMServerConnectionWorker : BackgroundService
 
                     if (id != Guid.Empty)
                     {
-                        _logger.LogInformation("The BSM server accepted a remote client connection.");
+                        string remoteEndPoint = _server.GetRemoteEndPoint(id);
+                        _logger.LogInformation("The BSM server accepted a remote client connection from {EndPoint}.", remoteEndPoint);
                     }
                 }
                 catch (Exception ex)
