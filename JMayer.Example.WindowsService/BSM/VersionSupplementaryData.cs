@@ -53,6 +53,22 @@ public class VersionSupplementaryData : ITypeB
     /// </summary>
     public const string TransferBaggageSourceIndicator = "T";
 
+    /// <summary>
+    /// The default constructor.
+    /// </summary>
+    public VersionSupplementaryData() { }
+
+    /// <summary>
+    /// The copy constructor.
+    /// </summary>
+    /// <param name="copy">The object to copy from.</param>
+    public VersionSupplementaryData(VersionSupplementaryData copy)
+    {
+        AirportCode = copy.AirportCode;
+        BaggageSourceIndicator = copy.BaggageSourceIndicator;
+        DataDictionaryVersionNumber = copy.DataDictionaryVersionNumber;
+    }
+
     /// <inheritdoc/>
     public void Parse(string typeBString)
     {
@@ -75,8 +91,5 @@ public class VersionSupplementaryData : ITypeB
     }
 
     /// <inheritdoc/>
-    public string ToTypeB()
-    {
-        return $"{DotVElement}/{DataDictionaryVersionNumber}{BaggageSourceIndicator}{AirportCode}{Environment.NewLine}";
-    }
+    public string ToTypeB() => $"{DotVElement}/{DataDictionaryVersionNumber}{BaggageSourceIndicator}{AirportCode}{Environment.NewLine}";
 }

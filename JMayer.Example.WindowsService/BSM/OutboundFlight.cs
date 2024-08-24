@@ -48,6 +48,24 @@ public class OutboundFlight : ITypeB
     [RegularExpression("^([0-9]{4})|([0-9]{4}[A-Z]{1})$", ErrorMessage = "The flight number must be 4 digits and optionally a capital letter.")]
     public string FlightNumber { get; set; } = string.Empty;
 
+    /// <summary>
+    /// The default constructor.
+    /// </summary>
+    public OutboundFlight() { }
+
+    /// <summary>
+    /// The copy constructor.
+    /// </summary>
+    /// <param name="copy">The object to copy from.</param>
+    public OutboundFlight(OutboundFlight copy)
+    {
+        Airline = copy.Airline;
+        ClassOfTravel = copy.ClassOfTravel;
+        Destination = copy.Destination;
+        FlightDate = copy.FlightDate;
+        FlightNumber = copy.FlightNumber;
+    }
+
     /// <inheritdoc/>
     public void Parse(string typeBString)
     {

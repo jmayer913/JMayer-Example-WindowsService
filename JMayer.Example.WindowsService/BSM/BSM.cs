@@ -69,6 +69,40 @@ public class BSM : ITypeB
     public VersionSupplementaryData? VersionSupplementaryData { get; set; }
 
     /// <summary>
+    /// The default constructor.
+    /// </summary>
+    public BSM() { }
+
+    /// <summary>
+    /// The copy constructor.
+    /// </summary>
+    /// <param name="copy">The object to copy from.</param>
+    public BSM(BSM copy)
+    {
+        ChangeOfStatus = copy.ChangeOfStatus;
+
+        if (copy.BaggageTagDetails != null)
+        {
+            BaggageTagDetails = new BaggageTagDetails(copy.BaggageTagDetails);
+        }
+
+        if (copy.OutboundFlight != null)
+        {
+            OutboundFlight = new OutboundFlight(copy.OutboundFlight);
+        }
+
+        if (copy.PassengerName != null)
+        {
+            PassengerName = new PassengerName(copy.PassengerName);
+        }
+
+        if (copy.VersionSupplementaryData != null)
+        {
+            VersionSupplementaryData = new VersionSupplementaryData(copy.VersionSupplementaryData);
+        }
+    }
+
+    /// <summary>
     /// The method returns the change of status from the BSM.
     /// </summary>
     /// <param name="bsm">The BSM to examine.</param>

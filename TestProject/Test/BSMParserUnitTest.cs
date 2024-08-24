@@ -117,7 +117,7 @@ public class BSMParserUnitTest
         Assert.Single(result.PDUs);
         Assert.IsType<BSMPDU>(result.PDUs[0]);
         Assert.True(result.PDUs[0].IsValid, "The BSM is not valid.");
-        Assert.True(new BMSEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
+        Assert.True(new BSMEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
     }
 
     /// <summary>
@@ -397,7 +397,7 @@ public class BSMParserUnitTest
         Assert.Single(result.PDUs);
         Assert.IsType<BSMPDU>(result.PDUs[0]);
         Assert.True(result.PDUs[0].IsValid, "The BSM is not valid.");
-        Assert.True(new BMSEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
+        Assert.True(new BSMEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
     }
 
     /// <summary>
@@ -442,7 +442,7 @@ public class BSMParserUnitTest
         Assert.Single(result.PDUs);
         Assert.IsType<BSMPDU>(result.PDUs[0]);
         Assert.True(result.PDUs[0].IsValid, "The BSM is not valid.");
-        Assert.True(new BMSEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
+        Assert.True(new BSMEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
     }
 
     /// <summary>
@@ -488,7 +488,7 @@ public class BSMParserUnitTest
         Assert.Single(result.PDUs);
         Assert.IsType<BSMPDU>(result.PDUs[0]);
         Assert.True(result.PDUs[0].IsValid, "The BSM is not valid.");
-        Assert.True(new BMSEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
+        Assert.True(new BSMEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
     }
 
     /// <summary>
@@ -584,7 +584,7 @@ public class BSMParserUnitTest
         Assert.Single(result.PDUs);
         Assert.IsType<BSMPDU>(result.PDUs[0]);
         Assert.True(result.PDUs[0].IsValid, "The BSM is not valid.");
-        Assert.True(new BMSEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
+        Assert.True(new BSMEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
     }
 
     /// <summary>
@@ -629,7 +629,7 @@ public class BSMParserUnitTest
         Assert.Single(result.PDUs);
         Assert.IsType<BSMPDU>(result.PDUs[0]);
         Assert.True(result.PDUs[0].IsValid, "The BSM is not valid.");
-        Assert.True(new BMSEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
+        Assert.True(new BSMEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
     }
 
     /// <summary>
@@ -923,8 +923,8 @@ public class BSMParserUnitTest
         Assert.True(result.PDUs[0].IsValid, "BSM 1 is not valid.");
         Assert.True(result.PDUs[1].IsValid, "BSM 2 is not valid.");
         Assert.True(result.PDUs[2].IsValid, "BSM 3 is not valid.");
-        Assert.True(new BMSEqualityComparer().Equals(bsm1, ((BSMPDU)result.PDUs[0]).BSM), "BSM 1 does not equal the first BSM in the parser results.");
-        Assert.True(new BMSEqualityComparer().Equals(bsm2, ((BSMPDU)result.PDUs[1]).BSM), "BSM 2 does not equal the second BSM in the parser results.");
-        Assert.True(new BMSEqualityComparer().Equals(bsm3, ((BSMPDU)result.PDUs[2]).BSM), "BSM 3 does not equal the third BSM in the parser results.");
+        Assert.True(new BSMEqualityComparer().Equals(bsm1, ((BSMPDU)result.PDUs[0]).BSM), "BSM 1 does not equal the first BSM in the parser results.");
+        Assert.True(new BSMEqualityComparer().Equals(bsm2, ((BSMPDU)result.PDUs[1]).BSM), "BSM 2 does not equal the second BSM in the parser results.");
+        Assert.True(new BSMEqualityComparer().Equals(bsm3, ((BSMPDU)result.PDUs[2]).BSM), "BSM 3 does not equal the third BSM in the parser results.");
     }
 }

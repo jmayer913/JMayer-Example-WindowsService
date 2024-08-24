@@ -30,6 +30,17 @@ public class BaggageTagDetails : ITypeB
     /// </summary>
     public const string DotNElement = ".N";
 
+    /// <summary>
+    /// The default constructor.
+    /// </summary>
+    public BaggageTagDetails() { }
+
+    /// <summary>
+    /// The copy constructor.
+    /// </summary>
+    /// <param name="copy">The object to copy from.</param>
+    public BaggageTagDetails(BaggageTagDetails copy) => BaggageTagNumbers.AddRange(copy.BaggageTagNumbers);
+
     /// <inheritdoc/>
     public void Parse(string typeBString)
     {
