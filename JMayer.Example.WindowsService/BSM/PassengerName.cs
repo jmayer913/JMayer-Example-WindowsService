@@ -24,6 +24,21 @@ public class PassengerName : ITypeB
     [Required]
     public string SurName { get; set; } = string.Empty;
 
+    /// <summary>
+    /// The default constructor.
+    /// </summary>
+    public PassengerName() { }
+
+    /// <summary>
+    /// The copy constructor.
+    /// </summary>
+    /// <param name="copy">The object to copy from.</param>
+    public PassengerName(PassengerName copy)
+    {
+        GivenNames.AddRange(copy.GivenNames);
+        SurName = copy.SurName;
+    }
+
     /// <inheritdoc/>
     public void Parse(string typeBString)
     {
