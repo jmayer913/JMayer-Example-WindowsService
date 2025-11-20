@@ -10,11 +10,11 @@ public class BaggageTagDetailEqualityComparer : IEqualityComparer<BaggageTagDeta
     /// <inheritdoc/>
     public bool Equals(BaggageTagDetails? x, BaggageTagDetails? y)
     {
-        if (x == null && y == null)
+        if (x is null && y is null)
         {
             return true;
         }
-        else if (x != null && y != null)
+        else if (x is not null && y is not null)
         {
             if (x.Count != y.Count)
             {
@@ -24,7 +24,7 @@ public class BaggageTagDetailEqualityComparer : IEqualityComparer<BaggageTagDeta
             {
                 foreach (string tag in x.BaggageTagNumbers)
                 {
-                    if (!y.BaggageTagNumbers.Contains(tag))
+                    if (y.BaggageTagNumbers.Contains(tag) is false)
                     {
                         return false;
                     }
@@ -40,8 +40,5 @@ public class BaggageTagDetailEqualityComparer : IEqualityComparer<BaggageTagDeta
     }
 
     /// <inheritdoc/>
-    public int GetHashCode([DisallowNull] BaggageTagDetails obj)
-    {
-        throw new NotImplementedException();
-    }
+    public int GetHashCode([DisallowNull] BaggageTagDetails obj) => obj.GetHashCode();
 }

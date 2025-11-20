@@ -39,6 +39,11 @@ public class BSM : ITypeB
     public const string Delete = "DEL";
 
     /// <summary>
+    /// The constant for the element separator.
+    /// </summary>
+    public const char ElementSeparator = '/';
+
+    /// <summary>
     /// The constant for the end of BSM.
     /// </summary>
     public const string EndOfBSM = "ENDBSM";
@@ -81,22 +86,22 @@ public class BSM : ITypeB
     {
         ChangeOfStatus = copy.ChangeOfStatus;
 
-        if (copy.BaggageTagDetails != null)
+        if (copy.BaggageTagDetails is not null)
         {
             BaggageTagDetails = new BaggageTagDetails(copy.BaggageTagDetails);
         }
 
-        if (copy.OutboundFlight != null)
+        if (copy.OutboundFlight is not null)
         {
             OutboundFlight = new OutboundFlight(copy.OutboundFlight);
         }
 
-        if (copy.PassengerName != null)
+        if (copy.PassengerName is not null)
         {
             PassengerName = new PassengerName(copy.PassengerName);
         }
 
-        if (copy.VersionSupplementaryData != null)
+        if (copy.VersionSupplementaryData is not null)
         {
             VersionSupplementaryData = new VersionSupplementaryData(copy.VersionSupplementaryData);
         }
@@ -111,11 +116,11 @@ public class BSM : ITypeB
     {
         string changeOfStatus = bsm.Substring(0, 3);
 
-        if (changeOfStatus == Change)
+        if (changeOfStatus is Change)
         {
             return Change;
         }
-        else if (changeOfStatus == Delete)
+        else if (changeOfStatus is Delete)
         {
             return Delete;
         }
@@ -149,7 +154,7 @@ public class BSM : ITypeB
             int startIndex = typeBString.IndexOf('.', totalBytesProcessed);
 
             //Dot was not found so exit.
-            if (startIndex == -1)
+            if (startIndex is -1)
             {
                 break;
             }
@@ -157,7 +162,7 @@ public class BSM : ITypeB
             int endIndex = typeBString.IndexOf('.', startIndex + 1);
 
             //If the next dot is not found then assume this is the last line.
-            if (endIndex == -1)
+            if (endIndex is -1)
             {
                 endIndex = typeBString.Length;
             }
@@ -195,22 +200,22 @@ public class BSM : ITypeB
     {
         string dotElements = string.Empty;
 
-        if (OutboundFlight != null)
+        if (OutboundFlight is not null)
         {
             dotElements += OutboundFlight.ToTypeB();
         }
 
-        if (BaggageTagDetails != null)
+        if (BaggageTagDetails is not null)
         {
             dotElements += BaggageTagDetails.ToTypeB();
         }
 
-        if (PassengerName != null)
+        if (PassengerName is not null)
         {
             dotElements += PassengerName.ToTypeB();
         }
 
-        if (VersionSupplementaryData != null)
+        if (VersionSupplementaryData is not null)
         {
             dotElements += VersionSupplementaryData.ToTypeB();
         }

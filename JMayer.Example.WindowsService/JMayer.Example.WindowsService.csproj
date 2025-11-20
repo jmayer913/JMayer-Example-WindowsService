@@ -9,8 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JMayer.Net" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.11" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="9.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\JMayer-Net-Library\JMayer.Net\JMayer.Net.csproj" />
   </ItemGroup>
 </Project>

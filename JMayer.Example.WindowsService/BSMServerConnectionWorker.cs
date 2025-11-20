@@ -46,10 +46,10 @@ internal class BSMServerConnectionWorker : BackgroundService
     /// <returns>A Task object for the async.</returns>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (!stoppingToken.IsCancellationRequested)
+        while (stoppingToken.IsCancellationRequested is false)
         {
             //Start the server if not ready.
-            if (!_server.IsReady)
+            if (_server.IsReady is false)
             {
                 try
                 {

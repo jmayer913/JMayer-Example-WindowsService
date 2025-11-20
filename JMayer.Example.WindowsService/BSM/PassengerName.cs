@@ -43,13 +43,13 @@ public class PassengerName : ITypeB
     public void Parse(string typeBString)
     {
         //Remove the identifier so the elements can be broken apart with Split().
-        typeBString = typeBString.Replace($"{DotPElement}/", string.Empty);
+        typeBString = typeBString.Replace($"{DotPElement}{BSM.ElementSeparator}", string.Empty);
         typeBString = typeBString.Replace(Environment.NewLine , string.Empty);
         
-        string[] elements = typeBString.Split('/');
+        string[] elements = typeBString.Split(BSM.ElementSeparator);
 
         //Handle parsing the surname.
-        if (elements.Length > 0 && !string.IsNullOrEmpty(elements[0]))
+        if (elements.Length > 0 && string.IsNullOrEmpty(elements[0]) is false)
         {
             //The number of given names can be infront of the surname as either a 1 or 2 digit number
             //so remove the number if it exists.
@@ -72,7 +72,7 @@ public class PassengerName : ITypeB
         {
             for (int index = 1; index < elements.Length; index++)
             {
-                if (!string.IsNullOrEmpty(elements[index]))
+                if (string.IsNullOrEmpty(elements[index]) is false)
                 {
                     GivenNames.Add(elements[index]);
                 }
@@ -87,9 +87,9 @@ public class PassengerName : ITypeB
 
         foreach (string givenName in GivenNames)
         {
-            givenNames += $"/{givenName}";
+            givenNames += $"{BSM.ElementSeparator}{givenName}";
         }
 
-        return $"{DotPElement}/{GivenNames.Count}{SurName}{givenNames}{Environment.NewLine}";
+        return $"{DotPElement}{BSM.ElementSeparator}{GivenNames.Count}{SurName}{givenNames}{Environment.NewLine}";
     }
 }

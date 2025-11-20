@@ -10,11 +10,11 @@ public class VersionSupplementaryDataEqualityComparer : IEqualityComparer<Versio
     /// <inheritdoc/>
     public bool Equals(VersionSupplementaryData? x, VersionSupplementaryData? y)
     {
-        if (x == null && y == null)
+        if (x is null && y is null)
         {
             return true;
         }
-        else if (x != null && y != null)
+        else if (x is not null && y is not null)
         {
             return x.AirportCode == y.AirportCode
                 && x.BaggageSourceIndicator == y.BaggageSourceIndicator
@@ -27,8 +27,5 @@ public class VersionSupplementaryDataEqualityComparer : IEqualityComparer<Versio
     }
 
     /// <inheritdoc/>
-    public int GetHashCode([DisallowNull] VersionSupplementaryData obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode([DisallowNull] VersionSupplementaryData obj) => obj.GetHashCode();
 }

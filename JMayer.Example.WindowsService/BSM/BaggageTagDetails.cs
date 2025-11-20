@@ -10,10 +10,7 @@ public class BaggageTagDetails : ITypeB
     /// <summary>
     /// The property gets the number of baggage tag numbers.
     /// </summary>
-    public int Count
-    {
-        get => BaggageTagNumbers.Count;
-    }
+    public int Count => BaggageTagNumbers.Count;
 
     /// <summary>
     /// The property gets a list of baggage tag numbers.
@@ -31,6 +28,11 @@ public class BaggageTagDetails : ITypeB
     public const string DotNElement = ".N";
 
     /// <summary>
+    /// The constant for the maximum character length of the .N element.
+    /// </summary>
+    private const int DotnMaximumCharacterLength = 13;
+
+    /// <summary>
     /// The default constructor.
     /// </summary>
     public BaggageTagDetails() { }
@@ -45,32 +47,41 @@ public class BaggageTagDetails : ITypeB
     public void Parse(string typeBString)
     {
         //Remove the identifier and new line.
-        typeBString = typeBString.Replace($"{DotNElement}/", string.Empty);
+        typeBString = typeBString.Replace($"{DotNElement}{BSM.ElementSeparator}", string.Empty);
         typeBString = typeBString.Replace(Environment.NewLine, string.Empty);
 
-        if (typeBString.Length is 13)
+        if (typeBString.Length is not DotnMaximumCharacterLength)
         {
-            if (long.TryParse(typeBString.AsSpan(0, 10), out long iataNumber) && int.TryParse(typeBString.AsSpan(10, 3), out int length))
-            {
-                for (int index = 0; index < length; index++)
-                {
-                    string iataString = (iataNumber + index).ToString().PadLeft(10, '0');
-                    BaggageTagNumbers.Add(iataString);
-                }
-            }
+            return;
+        }
+        
+        if (long.TryParse(typeBString.AsSpan(0, 10), out long iataNumber) is false)
+        {
+            return;
+        }
+        
+        if (int.TryParse(typeBString.AsSpan(10, 3), out int length) is false)
+        {
+            return;
+        }
+
+        for (int index = 0; index < length; index++)
+        {
+            string iataString = (iataNumber + index).ToString().PadLeft(10, '0');
+            BaggageTagNumbers.Add(iataString);
         }
     }
 
     /// <inheritdoc/>
     public string ToTypeB()
     {
-        if (Count == 0)
+        if (Count is 0)
         {
             return string.Empty;
         }
         else
         {
-            return $"{DotNElement}/{BaggageTagNumbers[0]}{Count:D3}{Environment.NewLine}";
+            return $"{DotNElement}{BSM.ElementSeparator}{BaggageTagNumbers[0]}{Count:D3}{Environment.NewLine}";
         }
     }
 }

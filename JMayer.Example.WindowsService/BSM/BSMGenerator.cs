@@ -167,10 +167,7 @@ public class BSMGenerator
     /// <summary>
     /// The default constructor.
     /// </summary>
-    public BSMGenerator()
-    {
-        SetRandomDestination();
-    }
+    public BSMGenerator() => SetRandomDestination();
 
     /// <summary>
     /// The method returns the next BSM.
@@ -263,8 +260,6 @@ public class BSMGenerator
     /// <summary>
     /// The method sets a random destination.
     /// </summary>
-    private void SetRandomDestination()
-    {
-        _destinationIndex = new Random(DateTime.Now.Second).Next(0, _destinations.Length - 1);
-    }
+    private void SetRandomDestination() 
+        => _destinationIndex = new Random(DateTime.Now.Second).Next(0, _destinations.Length - 1);
 }
