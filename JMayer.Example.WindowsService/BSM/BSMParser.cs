@@ -21,7 +21,7 @@ public class BSMParser : PDUParser
             int startIndex = bytesAsString.IndexOf(BSM.StartOfBSM, totalBytesProcessed);
 
             //Start was not found so exit.
-            if (startIndex == -1)
+            if (startIndex is -1)
             {
                 break;
             }
@@ -29,7 +29,7 @@ public class BSMParser : PDUParser
             int endIndex = bytesAsString.IndexOf(BSM.EndOfBSM, startIndex);
 
             //End was not found or start is actually the end, exit.
-            if (endIndex == -1 || startIndex == endIndex)
+            if (endIndex is -1 || startIndex == endIndex)
             {
                 break;
             }

@@ -10,7 +10,7 @@ public class BSMEqualityComparer : IEqualityComparer<BSM>
     /// <inheritdoc/>
     public bool Equals(BSM? x, BSM? y)
     {
-        if (x == null || y == null)
+        if (x is null || y is null)
         {
             return false;
         }

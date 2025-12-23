@@ -34,6 +34,11 @@ public class VersionSupplementaryData : ITypeB
     public const string DotVElement = ".V";
 
     /// <summary>
+    /// The constant for the minimum character length for the .V element.
+    /// </summary>
+    private const int DotvMinimumCharacterLength = 5;
+
+    /// <summary>
     /// The constant for the local baggage source indicator.
     /// </summary>
     public const string LocalBaggageSourceIndicator = "L";
@@ -73,12 +78,12 @@ public class VersionSupplementaryData : ITypeB
     public void Parse(string typeBString)
     {
         //Remove the identifier so the elements can be broken apart with Split().
-        typeBString = typeBString.Replace($"{DotVElement}/", string.Empty);
+        typeBString = typeBString.Replace($"{DotVElement}{BSM.ElementSeparator}", string.Empty);
         typeBString = typeBString.Replace(Environment.NewLine, string.Empty);
 
-        string[] elements = typeBString.Split('/');
+        string[] elements = typeBString.Split(BSM.ElementSeparator);
 
-        if (elements.Length > 0 && elements[0].Length is 5)
+        if (elements.Length > 0 && elements[0].Length is DotvMinimumCharacterLength)
         {
             if (int.TryParse(elements[0].AsSpan(0, 1), out int dataDictionaryVersionNumber))
             {
@@ -91,5 +96,5 @@ public class VersionSupplementaryData : ITypeB
     }
 
     /// <inheritdoc/>
-    public string ToTypeB() => $"{DotVElement}/{DataDictionaryVersionNumber}{BaggageSourceIndicator}{AirportCode}{Environment.NewLine}";
+    public string ToTypeB() => $"{DotVElement}{BSM.ElementSeparator}{DataDictionaryVersionNumber}{BaggageSourceIndicator}{AirportCode}{Environment.NewLine}";
 }

@@ -10,11 +10,11 @@ public class PassengerNameEqualityComparer : IEqualityComparer<PassengerName>
     /// <inheritdoc/>
     public bool Equals(PassengerName? x, PassengerName? y)
     {
-        if (x == null && y == null)
+        if (x is null && y is null)
         {
             return true;
         }
-        else if (x != null && y != null)
+        else if (x is not null && y is not null)
         {
             if (x.SurName != y.SurName || x.GivenNames.Count != y.GivenNames.Count)
             {
@@ -24,7 +24,7 @@ public class PassengerNameEqualityComparer : IEqualityComparer<PassengerName>
             {
                 foreach (string givenName in x.GivenNames)
                 {
-                    if (!y.GivenNames.Contains(givenName))
+                    if (y.GivenNames.Contains(givenName) is false)
                     {
                         return false;
                     }
@@ -40,8 +40,5 @@ public class PassengerNameEqualityComparer : IEqualityComparer<PassengerName>
     }
 
     /// <inheritdoc/>
-    public int GetHashCode([DisallowNull] PassengerName obj)
-    {
-        throw new NotImplementedException();
-    }
+    public int GetHashCode([DisallowNull] PassengerName obj) => obj.GetHashCode();
 }

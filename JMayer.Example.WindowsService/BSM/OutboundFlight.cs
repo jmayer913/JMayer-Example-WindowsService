@@ -49,6 +49,11 @@ public class OutboundFlight : ITypeB
     public string FlightNumber { get; set; } = string.Empty;
 
     /// <summary>
+    /// The constant for the minimum character length for the airline/flight number element.
+    /// </summary>
+    private const int MiniumumFlightElementCharacterLength = 6;
+
+    /// <summary>
     /// The default constructor.
     /// </summary>
     public OutboundFlight() { }
@@ -70,37 +75,37 @@ public class OutboundFlight : ITypeB
     public void Parse(string typeBString)
     {
         //Remove the identifier so the elements can be broken apart with Split().
-        typeBString = typeBString.Replace($"{DotFElement}/", string.Empty);
+        typeBString = typeBString.Replace($"{DotFElement}{BSM.ElementSeparator}", string.Empty);
         typeBString = typeBString.Replace(Environment.NewLine, string.Empty);
 
-        string[] elements = typeBString.Split('/');
+        string[] elements = typeBString.Split(BSM.ElementSeparator);
 
         //Handle parsing the airline and flight number.
-        if (elements.Length > 0 && !string.IsNullOrEmpty(elements[0]))
+        if (elements.Length > 0 && string.IsNullOrEmpty(elements[0]) is false)
         {
             string airlineAndFlight = elements[0];
 
-            if (airlineAndFlight.Length >= 6)
+            if (airlineAndFlight.Length >= MiniumumFlightElementCharacterLength)
             {
                 Airline = airlineAndFlight.Substring(0, 2);
-                FlightNumber = airlineAndFlight.Substring(2, airlineAndFlight.Length - 2);
+                FlightNumber = airlineAndFlight.Substring(2);
             }
         }
 
         //Handle parsing the flight date.
-        if (elements.Length > 1 && !string.IsNullOrEmpty(elements[1]))
+        if (elements.Length > 1 && string.IsNullOrEmpty(elements[1]) is false)
         {
             FlightDate = elements[1];
         }
 
         //Handle parsing the destination.
-        if (elements.Length > 2 && !string.IsNullOrEmpty(elements[2]))
+        if (elements.Length > 2 && string.IsNullOrEmpty(elements[2]) is false)
         {
             Destination = elements[2];
         }
 
         //Handle parsing the class of travel.
-        if (elements.Length > 3 && !string.IsNullOrEmpty(elements[3]))
+        if (elements.Length > 3 && string.IsNullOrEmpty(elements[3]) is false)
         {
             ClassOfTravel = elements[3];
         }
@@ -109,17 +114,17 @@ public class OutboundFlight : ITypeB
     /// <inheritdoc/>
     public string ToTypeB()
     {
-        if (!string.IsNullOrEmpty(ClassOfTravel))
+        if (string.IsNullOrEmpty(ClassOfTravel) is false)
         {
-            return $"{DotFElement}/{Airline}{FlightNumber}/{FlightDate}/{Destination}/{ClassOfTravel}{Environment.NewLine}";
+            return $"{DotFElement}{BSM.ElementSeparator}{Airline}{FlightNumber}{BSM.ElementSeparator}{FlightDate}{BSM.ElementSeparator}{Destination}{BSM.ElementSeparator}{ClassOfTravel}{Environment.NewLine}";
         }
-        else if (!string.IsNullOrEmpty(Destination))
+        else if (string.IsNullOrEmpty(Destination) is false)
         {
-            return $"{DotFElement}/{Airline}{FlightNumber}/{FlightDate}/{Destination}{Environment.NewLine}";
+            return $"{DotFElement}{BSM.ElementSeparator}{Airline}{FlightNumber}{BSM.ElementSeparator}{FlightDate}{BSM.ElementSeparator}{Destination}{Environment.NewLine}";
         }
         else
         {
-            return $"{DotFElement}/{Airline}{FlightNumber}/{FlightDate}{Environment.NewLine}";
+            return $"{DotFElement}{BSM.ElementSeparator}{Airline}{FlightNumber}{BSM.ElementSeparator}{FlightDate}{Environment.NewLine}";
         }
     }
 }

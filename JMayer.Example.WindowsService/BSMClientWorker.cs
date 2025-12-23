@@ -20,6 +20,11 @@ internal class BSMClientWorker : BackgroundService
     private readonly IClient _client;
 
     /// <summary>
+    /// The constant for the local host.
+    /// </summary>
+    private const string LocalHost = "127.0.0.1";
+
+    /// <summary>
     /// The dependency injection constructor.
     /// </summary>
     /// <param name="logger">Used to log activity for the service.</param>
@@ -37,13 +42,13 @@ internal class BSMClientWorker : BackgroundService
     /// <returns>A Task object for the async.</returns>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (!stoppingToken.IsCancellationRequested)
+        while (stoppingToken.IsCancellationRequested is false)
         {
-            if (!_client.IsConnected)
+            if (_client.IsConnected is false)
             {
                 try
                 {
-                    await _client.ConnectAsync("127.0.0.1", BSMServerConnectionWorker.Port, stoppingToken);
+                    await _client.ConnectAsync(LocalHost, BSMServerConnectionWorker.Port, stoppingToken);
                     _logger.LogInformation("The client connected to the BSM server.");
                 }
                 catch (Exception ex)
@@ -68,7 +73,7 @@ internal class BSMClientWorker : BackgroundService
                 }
             }
 
-            await Task.Delay(1000);
+            await Task.Delay(1000, stoppingToken);
         }
     }
 

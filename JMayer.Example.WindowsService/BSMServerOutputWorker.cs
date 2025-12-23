@@ -43,40 +43,42 @@ internal class BSMServerOutputWorker : BackgroundService
     /// <returns>A Task object for the async.</returns>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (!stoppingToken.IsCancellationRequested)
+        while (stoppingToken.IsCancellationRequested is false)
         {
-            if (_server.IsReady && _server.ConnectionCount > 0)
+            if (_server.IsReady is false || _server.ConnectionCount is 0)
             {
-                //Generate a BSM & sends it to the remote clients.
-                try
+                await Task.Delay(5_000, stoppingToken);
+            }
+
+            //Generate a BSM & sends it to the remote clients.
+            try
+            {
+                BSMPDU pdu = new()
                 {
-                    BSMPDU pdu = new()
+                    BSM = _bsmGenerator.Generate(),
+                };
+                await _server.SendToAllAsync(pdu, stoppingToken);
+                _logger.LogInformation("The BSM server sent a BSM to the remote clients. {BSM}", pdu.BSM.ToTypeB());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "The BSM server failed to send the BSM to the remote clients.");
+            }
+
+            //Manage stale remote clients.
+            List<Guid> ids = _server.GetStaleRemoteConnections();
+
+            if (ids.Count > 0)
+            {
+                _logger.LogInformation("The BSM server detected stale remote clients; will attempt to disconnect.");
+
+                foreach (Guid id in ids)
+                {
+                    try
                     {
-                        BSM = _bsmGenerator.Generate(),
-                    };
-                    await _server.SendToAllAsync(pdu, stoppingToken);
-                    _logger.LogInformation("The BSM server sent a BSM to the remote clients. {BSM}", pdu.BSM.ToTypeB());
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "The BSM server failed to send the BSM to the remote clients.");
-                }
-
-                //Manage stale remote clients.
-                List<Guid> ids = _server.GetStaleRemoteConnections();
-
-                if (ids.Count > 0)
-                {
-                    _logger.LogInformation("The BSM server detected stale remote clients; will attempt to disconnect.");
-
-                    foreach (Guid id in ids)
-                    {
-                        try
-                        {
-                            _server.Disconnect(id);
-                        }
-                        catch { }
+                        _server.Disconnect(id);
                     }
+                    catch { }
                 }
             }
 

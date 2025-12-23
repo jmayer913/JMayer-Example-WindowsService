@@ -10,11 +10,11 @@ public class OutboundFlightEqualityComparer : IEqualityComparer<OutboundFlight>
     /// <inheritdoc/>
     public bool Equals(OutboundFlight? x, OutboundFlight? y)
     {
-        if (x == null && y == null)
+        if (x is null && y is null)
         {
             return true;
         }
-        else if (x != null && y != null)
+        else if (x is not null && y is not null)
         {
             return x.Airline == y.Airline
                 && x.ClassOfTravel == y.ClassOfTravel
@@ -29,8 +29,5 @@ public class OutboundFlightEqualityComparer : IEqualityComparer<OutboundFlight>
     }
 
     /// <inheritdoc/>
-    public int GetHashCode([DisallowNull] OutboundFlight obj)
-    {
-        throw new NotImplementedException();
-    }
+    public int GetHashCode([DisallowNull] OutboundFlight obj) => obj.GetHashCode();
 }
