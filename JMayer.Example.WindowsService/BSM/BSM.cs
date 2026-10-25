@@ -133,19 +133,21 @@ public class BSM : ITypeB
     /// <inheritdoc/>
     public void Parse(string typeBString)
     {
+        //The identifiers are removed by line, not with Replace(), so the same letters in the data
+        //(e.g. the ADD or DEL airport codes or the surname MADDEN) are not removed.
+        List<string> lines = [.. typeBString.Split(Environment.NewLine)];
+
         //Remove the end identifier because it's no longer needed.
-        //This needs to be removed before start else you end up with only END.
-        typeBString = typeBString.Replace($"{EndOfBSM}{Environment.NewLine}", string.Empty);
-        typeBString = typeBString.Replace(EndOfBSM, string.Empty);
+        lines.Remove(EndOfBSM);
 
         //Remove the start identifier because it's no longer needed.
-        typeBString = typeBString.Replace($"{StartOfBSM}{Environment.NewLine}", string.Empty);
-        typeBString = typeBString.Replace(StartOfBSM, string.Empty);
+        lines.Remove(StartOfBSM);
 
         //Get the change of status and then remove it because its no longer needed
-        ChangeOfStatus = GetChangeOfStatus(typeBString);
-        typeBString = typeBString.Replace($"{ChangeOfStatus}{Environment.NewLine}", string.Empty);
-        typeBString = typeBString.Replace(ChangeOfStatus, string.Empty);
+        ChangeOfStatus = GetChangeOfStatus(lines[0]);
+        lines.Remove(ChangeOfStatus);
+
+        typeBString = string.Join(Environment.NewLine, lines);
 
         int totalBytesProcessed = 0;
 

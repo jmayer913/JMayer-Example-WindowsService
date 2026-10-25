@@ -927,4 +927,60 @@ public class BSMParserUnitTest
         Assert.True(new BSMEqualityComparer().Equals(bsm2, ((BSMPDU)result.PDUs[1]).BSM), "BSM 2 does not equal the second BSM in the parser results.");
         Assert.True(new BSMEqualityComparer().Equals(bsm3, ((BSMPDU)result.PDUs[2]).BSM), "BSM 3 does not equal the third BSM in the parser results.");
     }
+
+    /// <summary>
+    /// The method verifies data that contains the same letters as the start identifier, the end
+    /// identifier or a change of status is not removed when the BSM is parsed.
+    /// </summary>
+    /// <param name="changeOfStatus">The change of status for the BSM.</param>
+    /// <param name="airportCode">The .V airport code.</param>
+    /// <param name="destination">The .F destination.</param>
+    /// <param name="surName">The .P surname.</param>
+    /// <param name="givenName">The .P given name.</param>
+    [Theory]
+    [InlineData(BSM.Add, DotVAirportCode, "ADD", DotPSurName, DotPGivenName)]
+    [InlineData(BSM.Add, DotVAirportCode, DotFDestination, "MADDEN", DotPGivenName)]
+    [InlineData(BSM.Change, DotVAirportCode, DotFDestination, "CHGTEST", DotPGivenName)]
+    [InlineData(BSM.Delete, "DEL", "DEL", DotPSurName, DotPGivenName)]
+    public void VerifyDataMatchingIdentifiersIsNotRemoved(string changeOfStatus, string airportCode, string destination, string surName, string givenName)
+    {
+        BSM bsm = new()
+        {
+            BaggageTagDetails = new()
+            {
+                BaggageTagNumbers = [DotNTagNumber],
+            },
+            ChangeOfStatus = changeOfStatus,
+            OutboundFlight = new()
+            {
+                Airline = DotFAirline,
+                ClassOfTravel = DotFClassOfTravel,
+                Destination = destination,
+                FlightDate = DateTime.Today.ToDayMonthFormat(),
+                FlightNumber = DotFFlightNumber,
+            },
+            PassengerName = new()
+            {
+                GivenNames = [givenName],
+                SurName = surName,
+            },
+            VersionSupplementaryData = new()
+            {
+                AirportCode = airportCode,
+                BaggageSourceIndicator = VersionSupplementaryData.LocalBaggageSourceIndicator,
+                DataDictionaryVersionNumber = DotVDataDictionaryVersionNumber,
+            },
+        };
+
+        BSMParser parser = new();
+        string bsmString = bsm.ToTypeB();
+        byte[] bsmBytes = Encoding.ASCII.GetBytes(bsmString);
+
+        PDUParserResult result = parser.Parse(bsmBytes);
+
+        Assert.Single(result.PDUs);
+        Assert.IsType<BSMPDU>(result.PDUs[0]);
+        Assert.True(result.PDUs[0].IsValid, "The BSM is not valid.");
+        Assert.True(new BSMEqualityComparer().Equals(bsm, ((BSMPDU)result.PDUs[0]).BSM), "The BSM does not equal the BSM in the parser results.");
+    }
 }
